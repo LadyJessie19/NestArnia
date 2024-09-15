@@ -62,6 +62,48 @@ Neste repositório, você encontrará:
 - Códigos de exemplo: Exemplos de código fonte para ilustrar os conceitos abordados nas aulas.
 - Outros recursos: Links úteis, referências a livros, artigos, e materiais complementares para aprofundar o conhecimento.
 
+## Como funciona esse repositório 🗂️📚
+
+Para melhor organização dos arquivos, cada semana de aula possui sua respectiva **branch** com os arquivos correspondentes.
+
+### Como trocar de branch 🔄
+
+Siga os passos abaixo para trocar de branch e acessar os arquivos da semana desejada:
+
+1. **Verificar as branches disponíveis** 📝:
+
+   ```bash
+   git branch -r
+   ```
+
+   Esse comando lista todas as branches remotas disponíveis.
+
+2. **Trocar para a branch da semana** 📅:
+
+   ```bash
+   git checkout nome-da-branch
+   ```
+
+   Substitua `nome-da-branch` pela branch correspondente à semana que você deseja acessar, como por exemplo `feat/week-one`, `feat/week-two`, etc.
+
+3. **Atualizar a branch** 🔄:
+   Caso precise atualizar a branch para a versão mais recente, utilize:
+   ```bash
+   git pull origin nome-da-branch
+   ```
+
+### Exemplo 👇
+
+```bash
+git checkout feat/week-one
+```
+
+Agora você terá acesso aos arquivos da semana 1!
+
+#### Dica 💡
+
+Não esqueça de sempre salvar suas mudanças antes de trocar de branch, usando `git commit` ou `git stash` para não perder seu progresso.
+
 ## Como Contribuir 🤝
 
 Se você tem sugestões, dúvidas ou gostaria de contribuir com conteúdo para este repositório, sinta-se à vontade para abrir uma "Issue" ou enviar um "Pull Request". A sua contribuição é muito bem-vinda e ajudará a enriquecer a experiência de aprendizado de todos os alunos.

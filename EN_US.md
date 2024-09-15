@@ -60,6 +60,48 @@ In this repository, you will find:
 - Code examples: Source code examples to illustrate the topics covered in the classes.
 - Other resources: Useful links, references to books, articles, and complementary materials to deepen your knowledge.
 
+## How this repository works 🗂️📚
+
+To better organize the files, each week of class has its own **branch** with the corresponding files.
+
+### How to switch branches 🔄
+
+Follow the steps below to switch branches and access the files for the desired week:
+
+1. **Check available branches** 📝:
+
+   ```bash
+   git branch -r
+   ```
+
+   This command lists all available remote branches.
+
+2. **Switch to the week's branch** 📅:
+
+   ```bash
+   git checkout branch-name
+   ```
+
+   Replace `branch-name` with the branch corresponding to the week you want to access, such as `feat/week-one`, `feat/week-two`, etc.
+
+3. **Update the branch** 🔄:
+   If you need to update the branch to the latest version, use:
+   ```bash
+   git pull origin branch-name
+   ```
+
+### Example 👇
+
+```bash
+git checkout feat/week-one
+```
+
+Now you will have access to the files for week 1!
+
+#### Tip 💡
+
+Don't forget to always save your changes before switching branches, using `git commit` or `git stash` to avoid losing your progress.
+
 ## How to Contribute 🤝
 
 If you have suggestions, questions, or would like to contribute with content to this repository, feel free to open an "Issue" or submit a "Pull Request." Your contribution is very welcome and will help enrich the learning experience for all students.
