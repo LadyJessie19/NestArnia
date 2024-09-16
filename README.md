@@ -2,11 +2,11 @@
 
 ## Tópicos da semana 📚
 
-- Introdução ao Nest.js
-- Primeiros passos com o Nest CLI
-- Estruturação de rotas e recursos
-- Exceções e validação de dados
-- Documentação com Swagger
+- Introdução ao Nest.js;
+- Primeiros passos com o Nest CLI;
+- Estruturação de rotas e recursos;
+- Exceções e validação de dados;
+- Documentação com Swagger;
 
 ## Exercícios 💻
 
