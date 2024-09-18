@@ -31,25 +31,32 @@ export class CustomersController {
   @ApiBody({
     schema: {
       properties: {
-        firstName: { type: 'string', example: 'Jéssica', required: ['aaa'] },
+        firstName: { type: 'string', example: 'Jéssica' },
         lastName: { type: 'string', example: 'Moura' },
         age: { type: 'number', example: 25 },
       },
     },
   })
+  @ApiOperation({
+    summary: 'Criação de um novo cliente',
+    description: `<strong>Cria</strong> um novo cliente. <br/> 
+                  É necessário fornecer o <code>firstName</code>, <code>lastName</code> e a <code>age</code> do cliente.`,
+  })
+  @ApiResponse({ status: 201, description: 'Cliente criado com sucesso.' })
   create(@Body(ValidationPipe) createCustomerDto: CreateCustomerDto) {
     return this.customersService.create(createCustomerDto);
   }
 
   @Get()
   @ApiOperation({
-    summary:
-      'Para a listagem de todos os clientes. Aceita parâmetros de query age, para a filtragem',
+    summary: 'Listagem de todos os clientes',
+    description:
+      'Aceita parâmetros de query como <code>age</code> para a filtragem dos clientes.',
   })
   @ApiQuery({
     name: 'age',
     required: false,
-    description: 'Para a filtragem dos meus clientes pela idade.',
+    description: 'Filtra os clientes pela idade.',
     type: 'string',
   })
   @ApiResponse({
@@ -58,24 +65,71 @@ export class CustomersController {
   })
   @ApiResponse({
     status: 404,
-    description: 'Nenhum cliente com essa idade no banco',
+    description: 'Nenhum cliente com essa idade encontrado no banco.',
   })
   findAll(@Query('age') age?: string) {
     return this.customersService.findAll(+age);
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Rota para pegar o cliente pelo id.' })
+  @ApiOperation({
+    summary: 'Busca de um cliente específico',
+    description:
+      'Rota para buscar um cliente através do <code>id</code> fornecido.',
+  })
   @ApiParam({
     name: 'id',
-    description: 'Parâmetro para pegar pelo id',
+    description: 'ID do cliente a ser buscado.',
     type: 'number',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Cliente encontrado com sucesso.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Cliente com o ID fornecido não foi encontrado.',
   })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.customersService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: 'Atualização de um cliente',
+    description: `Atualiza os dados de um cliente através do <code>id</code> fornecido. 
+                  É possível alterar <code>firstName</code>, <code>lastName</code> ou <code>age</code>.`,
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID do cliente a ser atualizado.',
+    type: 'number',
+  })
+  @ApiBody({
+    schema: {
+      properties: {
+        firstName: {
+          type: 'string',
+          example: 'John',
+          description: 'Nome do cliente',
+        },
+        lastName: {
+          type: 'string',
+          example: 'Doe',
+          description: 'Sobrenome do cliente',
+        },
+        age: { type: 'number', example: 30, description: 'Idade do cliente' },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Cliente atualizado com sucesso.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Cliente com o ID fornecido não foi encontrado.',
+  })
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body(ValidationPipe) updateCustomerDto: UpdateCustomerDto,
@@ -84,6 +138,23 @@ export class CustomersController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Remoção de um cliente',
+    description: 'Remove um cliente através do <code>id</code> fornecido.',
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID do cliente a ser removido.',
+    type: 'number',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Cliente removido com sucesso.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Cliente com o ID fornecido não foi encontrado.',
+  })
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.customersService.remove(id);
   }
