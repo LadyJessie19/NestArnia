@@ -21,10 +21,10 @@ INSERT INTO usuarios (first_name, age, email, last_name) VALUES
 DELETE FROM usuarios where age > 20 RETURNING *;
 
 --h) Altere o "isAdmin" de um dos usuarios para true.
-UPDATE usuarios SET isAdmin = true WHERE id = 1;
+UPDATE usuarios SET isAdmin = true WHERE id = 3;
 
 --Desafio 1 -> Selecione todos os usuarios com o campo isAdmin = false ordenado pela idade.
-
+SELECT * FROM usuarios WHERE isAdmin = false ORDER BY age DESC;
 
 --Desafio 2 -> Selecione todos os usuarios e retorne a quantidade de usuarios (COUNT.)
-
+SELECT COUNT(*) FROM usuarios;
