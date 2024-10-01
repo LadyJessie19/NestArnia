@@ -21,6 +21,9 @@ export class User {
   @MinLength(3)
   password: string;
 
+  @Column({ default: true })
+  isActive: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 }

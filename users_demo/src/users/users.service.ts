@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './users.entity';
@@ -16,7 +20,11 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async findAll() {
+  async findAll(isActive: boolean | undefined) {
+    if (isActive !== undefined) {
+      return this.usersRepository.find({ where: { isActive } });
+    }
+
     return this.usersRepository.find();
   }
 
@@ -24,7 +32,7 @@ export class UsersService {
     const user = await this.usersRepository.findOneBy({ id });
 
     if (!user) {
-      throw new NotFoundException('O usuário não foi encontrado');
+      throw new NotFoundException('O usuário não foi encontrado.');
     }
 
     return user;
@@ -34,10 +42,22 @@ export class UsersService {
     const user = await this.usersRepository.findOneBy({ id });
 
     if (!user) {
-      throw new NotFoundException('O usuário não foi encontrado');
+      throw new NotFoundException('O usuário não foi encontrado.');
     }
 
     Object.assign(user, updateUserDto);
     return await this.usersRepository.save(user);
+  }
+
+  async delete(id: string) {
+    const user = await this.findOne(id);
+
+    if (!user.isActive) {
+      throw new BadRequestException('O usuário já está inativo.');
+    }
+
+    user.isActive = false;
+    this.usersRepository.save(user);
+    return user;
   }
 }
