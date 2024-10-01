@@ -60,4 +60,19 @@ export class UsersService {
     this.usersRepository.save(user);
     return user;
   }
+
+  async findByEmail(email: string) {
+    const user = await this.usersRepository.find({
+      where: { email },
+      select: ['id', 'email', 'password', 'isActive', 'createdAt'],
+    });
+
+    if (!user) {
+      throw new NotFoundException(
+        'O usuário não foi encontrado com o email informado.',
+      );
+    }
+
+    return user;
+  }
 }

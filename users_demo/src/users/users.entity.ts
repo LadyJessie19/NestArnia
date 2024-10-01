@@ -1,9 +1,12 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import * as bcrypt from 'bcrypt';
 
 import { IsEmail, Length, MinLength } from 'class-validator';
 
@@ -17,7 +20,7 @@ export class User {
   @Length(3, 50)
   email: string;
 
-  @Column()
+  @Column({ select: false })
   @MinLength(3)
   password: string;
 
@@ -26,4 +29,13 @@ export class User {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @BeforeInsert()
+  async encryptPassword() {
+    try {
+      this.password = await bcrypt.hash(this.password, 10);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
