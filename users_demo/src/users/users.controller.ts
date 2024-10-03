@@ -7,11 +7,15 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { JwtAuthGuard } from 'src/auth/guards/auth.guard';
+import { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -25,6 +29,13 @@ export class UsersController {
   @Get()
   async findAll(@Query('isActive') isActive: boolean) {
     return this.usersService.findAll(isActive);
+  }
+
+  @Get('profile/user')
+  @UseGuards(JwtAuthGuard)
+  async getLoggedUser(@Req() request: Request) {
+    console.log('chegou');
+    return request['user'];
   }
 
   @Get(':id')
