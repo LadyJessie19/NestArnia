@@ -3,12 +3,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
 
 import { IsEmail, Length, MinLength } from 'class-validator';
+import { Address } from 'src/addresses/entities/address.entity';
 
 @Entity('users')
 export class User {
@@ -29,6 +32,13 @@ export class User {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @OneToOne(() => Address, (address) => address.user, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinColumn({ name: 'address_id' })
+  address: Address;
 
   @BeforeInsert()
   async encryptPassword() {

@@ -1,7 +1,9 @@
+import { User } from 'src/users/users.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -18,6 +20,9 @@ export class Address {
 
   @Column({ nullable: false, length: 8 })
   zipCode: string;
+
+  @OneToOne(() => User, (user) => user.address, { onDelete: 'CASCADE' })
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -31,11 +31,10 @@ export class UsersController {
     return this.usersService.findAll(isActive);
   }
 
-  @Get('profile/user')
+  @Get('profile')
   @UseGuards(JwtAuthGuard)
   async getLoggedUser(@Req() request: Request) {
-    console.log('chegou');
-    return request['user'];
+    return this.usersService.findOne(request['user'].sub);
   }
 
   @Get(':id')
