@@ -3,25 +3,30 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToOne,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity('addresses')
-export class Address {
+@Entity('pets')
+export class Pet {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ nullable: false })
-  street: string;
+  name: string;
 
   @Column({ nullable: false })
-  city: string;
+  age: number;
 
-  @Column({ nullable: false, length: 8 })
-  zipCode: string;
+  @Column({ nullable: false })
+  breed: string;
 
-  @OneToOne(() => User, (user) => user.address, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.pets, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @CreateDateColumn()

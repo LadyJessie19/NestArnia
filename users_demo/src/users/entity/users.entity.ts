@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -12,6 +13,7 @@ import * as bcrypt from 'bcrypt';
 
 import { IsEmail, Length, MinLength } from 'class-validator';
 import { Address } from 'src/addresses/entities/address.entity';
+import { Pet } from 'src/pets/entities/pet.entity';
 
 @Entity('users')
 export class User {
@@ -39,6 +41,9 @@ export class User {
   })
   @JoinColumn({ name: 'address_id' })
   address: Address;
+
+  @OneToMany(() => Pet, (pet) => pet.user)
+  pets: Pet[];
 
   @BeforeInsert()
   async encryptPassword() {
