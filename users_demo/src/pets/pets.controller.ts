@@ -1,15 +1,33 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  ValidationPipe,
+  Req,
+} from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
+import { JwtAuthGuard } from 'src/auth/guards/auth.guard';
+import { Request } from 'express';
 
 @Controller('pets')
 export class PetsController {
   constructor(private readonly petsService: PetsService) {}
 
   @Post()
-  create(@Body() createPetDto: CreatePetDto) {
-    return this.petsService.create(createPetDto);
+  @UseGuards(JwtAuthGuard)
+  create(
+    @Body(ValidationPipe) createPetDto: CreatePetDto,
+    @Req() req: Request,
+  ) {
+    const userId = req['user'].sub;
+    return this.petsService.create(createPetDto, userId);
   }
 
   @Get()
@@ -19,7 +37,7 @@ export class PetsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.petsService.findOne(+id);
+    return this.petsService.findOne(id);
   }
 
   @Patch(':id')

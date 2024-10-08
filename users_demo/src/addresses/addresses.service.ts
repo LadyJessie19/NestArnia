@@ -1,9 +1,14 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateAddressDto } from './dto/create-address.dto';
 import { UpdateAddressDto } from './dto/update-address.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Address } from './entities/address.entity';
 import { Repository } from 'typeorm';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AddressesService {
@@ -26,10 +31,20 @@ export class AddressesService {
     return address;
   }
 
-  async update(id: string, updateAddressDto: UpdateAddressDto) {
-    const address = await this.findOne(id);
+  async update(id: string, updateAddressDto: UpdateAddressDto, userId: string) {
+    const address = await this.addressesRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+
+    if (address.user.id !== userId) {
+      throw new UnauthorizedException(
+        'O usuário não tem permissão para alterar esse endereço',
+      );
+    }
+
     await this.addressesRepository.update(id, updateAddressDto);
-    return address;
+    return this.addressesRepository.save(address);
   }
 
   async remove(id: string) {

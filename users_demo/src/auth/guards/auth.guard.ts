@@ -10,7 +10,7 @@ export class JwtAuthGuard implements CanActivate {
     private readonly configService: ConfigService,
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
 
@@ -20,7 +20,7 @@ export class JwtAuthGuard implements CanActivate {
 
     const token = authHeader.split(' ')[1];
     try {
-      const decoded = this.jwtService.verifyAsync(token, {
+      const decoded = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get('JWT_SECRET'),
       });
       request['user'] = decoded;

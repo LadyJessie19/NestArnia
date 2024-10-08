@@ -4,22 +4,29 @@ import { UpdatePetDto } from './dto/update-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pet } from './entities/pet.entity';
 import { Repository } from 'typeorm';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class PetsService {
   constructor(
     @InjectRepository(Pet) private readonly petsRepository: Repository<Pet>,
+    private readonly usersService: UsersService,
   ) {}
-  create(createPetDto: CreatePetDto) {
-    return 'This action adds a new pet';
+  async create(createPetDto: CreatePetDto, userId: string) {
+    const user = await this.usersService.findOne(userId);
+    const pet = this.petsRepository.create({ ...createPetDto, user });
+    return await this.petsRepository.save(pet);
   }
 
   findAll() {
-    return `This action returns all pets`;
+    return this.petsRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pet`;
+  findOne(id: string) {
+    return this.petsRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
   }
 
   update(id: number, updatePetDto: UpdatePetDto) {
