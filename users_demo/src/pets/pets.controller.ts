@@ -9,6 +9,7 @@ import {
   UseGuards,
   ValidationPipe,
   Req,
+  Query,
 } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetDto } from './dto/create-pet.dto';
@@ -31,8 +32,15 @@ export class PetsController {
   }
 
   @Get()
-  findAll() {
-    return this.petsService.findAll();
+  async findAll(@Query('breed') breed?: string) {
+    return await this.petsService.findAll(breed);
+  }
+
+  @Get('/my-pets')
+  @UseGuards(JwtAuthGuard)
+  async findMyPets(@Req() req: Request) {
+    const userId = req['user'].sub;
+    return this.petsService.findMyPets(userId);
   }
 
   @Get(':id')
@@ -41,8 +49,14 @@ export class PetsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
-    return this.petsService.update(+id, updatePetDto);
+  @UseGuards(JwtAuthGuard)
+  update(
+    @Param('id') id: string,
+    @Body() updatePetDto: UpdatePetDto,
+    @Req() req: Request,
+  ) {
+    const userId = req['user'].sub;
+    return this.petsService.update(id, updatePetDto, userId);
   }
 
   @Delete(':id')

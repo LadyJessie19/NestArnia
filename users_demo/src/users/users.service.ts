@@ -78,4 +78,17 @@ export class UsersService {
 
     return user;
   }
+
+  async findProfile(id: string) {
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: ['address', 'pets'],
+    });
+
+    if (!user) {
+      throw new NotFoundException('O usuário não foi encontrado.');
+    }
+
+    return user;
+  }
 }

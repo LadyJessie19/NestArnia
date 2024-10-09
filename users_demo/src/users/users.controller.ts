@@ -34,7 +34,7 @@ export class UsersController {
   @Get('profile')
   @UseGuards(JwtAuthGuard)
   async getLoggedUser(@Req() request: Request) {
-    return this.usersService.findOne(request['user'].sub);
+    return this.usersService.findProfile(request['user'].sub);
   }
 
   @Get(':id')

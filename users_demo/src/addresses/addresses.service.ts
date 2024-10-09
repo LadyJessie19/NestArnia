@@ -44,7 +44,11 @@ export class AddressesService {
     }
 
     await this.addressesRepository.update(id, updateAddressDto);
-    return this.addressesRepository.save(address);
+
+    return await this.addressesRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
   }
 
   async remove(id: string) {

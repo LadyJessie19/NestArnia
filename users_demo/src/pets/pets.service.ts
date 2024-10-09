@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto';
 import { UpdatePetDto } from './dto/update-pet.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,8 +18,14 @@ export class PetsService {
     return await this.petsRepository.save(pet);
   }
 
-  findAll() {
-    return this.petsRepository.find();
+  findAll(breed: string | undefined) {
+    const query = this.petsRepository.createQueryBuilder('pet');
+
+    if (breed) {
+      query.where('pet.breed = :breed', { breed });
+    }
+
+    return query.getMany();
   }
 
   findOne(id: string) {
@@ -29,11 +35,30 @@ export class PetsService {
     });
   }
 
-  update(id: number, updatePetDto: UpdatePetDto) {
-    return `This action updates a #${id} pet`;
+  async update(id: string, updatePetDto: UpdatePetDto, userId: string) {
+    const pet = await this.petsRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+
+    if (pet.user.id !== userId) {
+      throw new UnauthorizedException('Você não pode atualizar esse pet.');
+    }
+
+    await this.petsRepository.update(id, updatePetDto);
+    return await this.petsRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
   }
 
   remove(id: number) {
     return `This action removes a #${id} pet`;
+  }
+
+  async findMyPets(userId: string) {
+    return this.petsRepository.find({
+      where: { user: { id: userId } },
+    });
   }
 }
