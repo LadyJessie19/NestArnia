@@ -82,7 +82,7 @@ export class UsersService {
   async findProfile(id: string) {
     const user = await this.usersRepository.findOne({
       where: { id },
-      relations: ['address', 'pets'],
+      relations: ['address', 'pets', 'events'],
     });
 
     if (!user) {
