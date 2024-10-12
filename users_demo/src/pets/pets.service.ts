@@ -18,14 +18,24 @@ export class PetsService {
     return await this.petsRepository.save(pet);
   }
 
-  findAll(breed: string | undefined) {
+  async findAll(page: number, limit: number, breed: string | undefined) {
     const query = this.petsRepository.createQueryBuilder('pet');
 
     if (breed) {
       query.where('pet.breed = :breed', { breed });
     }
 
-    return query.getMany();
+    const [result, total] = await query
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+
+    return {
+      total,
+      page,
+      limit,
+      pets: result,
+    };
   }
 
   findOne(id: string) {
