@@ -1,23 +1,27 @@
-# NestArnia - Semana 4
+# NestArnia - Semana 5
 
 ## Tópicos da Semana 📚
 
-- Autenticação e Autorização com NestJS;
-- Criação e Manipulação de Entidades com TypeORM;
-- Relacionamentos entre Tabelas;
-- Validações e DTOs no NestJS;
-- Proteção de Rotas com Guards;
-- Geração e Verificação de JWTs.
+- Criação de rotas para pets e filtragem por query;
+- Manipulação de entidades com relacionamentos (Pets e Users, Events e Users);
+- Paginação de rotas;
+- Uso de decoradores personalizados (CurrentUser);
+- Upload e gerenciamento de imagens;
+- Criação de entidades com relacionamentos (N:N);
+- Validação e filtragem de dados via query (eventDate);
+- Documentação de APIs com NestJS;
+- Testes unitários simples (funções de soma e multiplicação);
+- Criação de DER (Diagrama Entidade-Relacionamento) da aplicação.
 
 ## Exercícios 💻
 
-| Data  | Tarefa 1                                                                                                        | Tarefa 2                                                      | Tarefa 3                                              | Tarefa 4                                                          | Tarefa 5                                                                                         |
-| ----- | --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| 30/09 | Criar método no service de users para buscar user pelo email, retornando a senha                                | Adicionar bcrypt para encriptar password usando @BeforeInsert | Criar um módulo para auth                             | Criar um controller e um service para auth                        |                                                                                                  |
-| 01/10 | Criar rota para login, retornando um JWT token usando @nestjs/jwt                                               | Criar nova entidade Address (id, street, city, zipCode)       | Verificar se tabela Address foi criada corretamente   | Criar nova resource de Addresses                                  | Criar uma rota de POST de Addresses (com validações no dto)                                      |
-|       | Criar rota de PATCH de Addresses                                                                                |                                                               |                                                       |                                                                   |                                                                                                  |
-| 02/10 | Criar um auth guard para proteção das rotas                                                                     | Criar rota GET -> /users/profile utilizando o guard           |                                                       |                                                                   |                                                                                                  |
-| 03/10 | Criar rota para buscar todos Adresses                                                                           | Adicionar relacionamento 1:1 com user na entidade Address     | Modificar rota profile do user para incluir o Address |                                                                   |                                                                                                  |
-| 04/10 | Criar nova entidade Pet (id, name, age, breed -> obrigatórios e user (relacionamento N:1) -> não pode ser nulo) | Verificar se tabela Pet foi criada corretamente               | Criar rota para criação de Pets                       | Criar rota para buscar um pet pelo id, com informações do usuário | Modificar rota de PATCH de Addresses para que somente o usuário correspondente possa modificá-lo |
+| Data  | Tarefa 1                                                                             | Tarefa 2                                                                              | Tarefa 3                                                                                      | Tarefa 4                                                                           | Tarefa 5                                                             |
+| ----- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| 07/10 | Criar rota GET -> /pets que retorna todos os pets, com query para filtrar pela breed | Adicionar informações dos pets na rota de perfil                                      | Criar rota de update de pets (somente o dono do pet pode modificá-lo)                         | Criar rota GET -> /pets/my-pets para retornar os pets do usuário logado            |                                                                      |
+| 08/10 | Criar entidade Events (id, eventName, eventDate, participants (N:N com users))       | Criar rota POST -> /events                                                            | Criar rota para o usuário participar de um evento (sugestão: POST -> /events/:id/participate) | Incluir eventos na rota de perfil do usuário                                       | **Desafio:** Implementar paginação na rota de get de Pets            |
+| 09/10 | Criar um decorator CurrentUser para substituir req.user nas rotas                    | Criar rota GET -> /events                                                             |                                                                                               | **Desafio:** Filtrar eventos pela data (eventDate) a partir de uma data específica |                                                                      |
+| 10/10 | Criar rota para envio de imagens do evento                                           | Criar rota GET para retornar a imagem pelo nome                                       | Criar nova entidade Images (id, imageLink, eventId)                                           |                                                                                    |                                                                      |
+| 11/10 | Criar um service para relacionar imagem com evento existente                         | Criar rota GET -> /events/:id que mostra o evento e os links das imagens relacionadas |                                                                                               |                                                                                    |                                                                      |
+| 12/10 | Criar rota para editar a data de um evento existente                                 | Documentar a aplicação                                                                | Fazer o DER da aplicação                                                                      | **Desafio:** Criar um teste simples para uma função de soma                        | **Desafio:** Criar um teste simples para uma função de multiplicação |
 
 ## **Happy coding!** 🚀
