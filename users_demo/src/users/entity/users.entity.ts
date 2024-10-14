@@ -13,9 +13,9 @@ import {
 import * as bcrypt from 'bcrypt';
 
 import { IsEmail, Length, MinLength } from 'class-validator';
-import { Address } from 'src/addresses/entities/address.entity';
-import { Pet } from 'src/pets/entities/pet.entity';
-import { Event } from 'src/events/entities/event.entity';
+import { Address } from '../../addresses/entities/address.entity';
+import { Pet } from '../../pets/entities/pet.entity';
+import { Event } from '../../events/entities/event.entity';
 
 @Entity('users')
 export class User {

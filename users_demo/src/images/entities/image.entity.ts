@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Event } from 'src/events/entities/event.entity';
+import { Event } from '../../events/entities/event.entity';
 
 @Entity('images')
 export class Image {
