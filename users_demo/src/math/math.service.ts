@@ -1,9 +1,5 @@
 export class MathService {
-  sum(a: number, b: number): number {
-    return a + b;
-  }
-
-  multiply(a: number, b: number): number {
-    return a * b;
+  sum(number1: number, number2: number) {
+    return number1 + number2;
   }
 }

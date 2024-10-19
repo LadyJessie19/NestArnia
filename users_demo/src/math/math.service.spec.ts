@@ -7,11 +7,8 @@ describe.skip('MathService', () => {
     service = new MathService();
   });
 
-  it('should return the sum of two numbers', () => {
-    expect(service.sum(2, 3)).toEqual(5);
-  });
-
-  it('should return the product of two numbers', () => {
-    expect(service.multiply(2, 3)).toEqual(6);
+  it('should return a sum of two parameters', () => {
+    const result = service.sum(2, 3);
+    expect(result).toBe(5);
   });
 });
