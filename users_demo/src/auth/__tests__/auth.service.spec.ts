@@ -6,6 +6,8 @@ import { AuthService } from '../auth.service';
 import { UsersServiceMock } from './mocks/users-service.mock';
 import { JwtServiceMock } from './mocks/jwt-service.mock';
 import { ConfigServiceMock } from './mocks/config-service.mock';
+import { mockUser } from './mocks/user.mock';
+import * as bcrypt from 'bcrypt';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -27,6 +29,17 @@ describe('AuthService', () => {
 
   it('should be defined', () => {
     expect(authService).toBeDefined();
+  });
+
+  it('should return a token', async () => {
+    const loginDto = { email: mockUser.email, password: mockUser.password };
+
+    jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+
+    const result = await authService.login(loginDto);
+
+    expect(result).toEqual({ token: 'mockToken' });
+    expect(usersService.findByEmail).toHaveBeenCalledWith(mockUser.email);
   });
 });
 /*
